@@ -1,0 +1,30 @@
+// {
+//     "compilerOptions": {
+//         "target": "esnext",
+//         "module": "esnext",
+//         // これは `this` のデータプロパティに対してより厳密な推論を可能にします
+//         "strict": true,
+//         "jsx": "preserve",
+//         "moduleResolution": "node",
+//         "skipLibCheck": true,
+//     },
+//     "exclude": ["**/vendor"]
+// }
+
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2020",
+        "moduleResolution": "node",
+        "baseUrl": "./",
+        "strict": true,         // Enable strict type-checking options
+        "skipLibCheck": true,   // Skip type checking of declaration files
+        "noImplicitAny": false,  // Bypass raising errors on `any` type
+        "paths": {
+            "@/*": ["resources/js/*"]
+          },
+        //   "allowJs": true,
+        "resolveJsonModule": true, //
+    },
+    "include": ["resources/js/**/*"] // Frontend paths pattern
+}
