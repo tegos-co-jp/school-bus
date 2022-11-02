@@ -57,8 +57,8 @@ const initialValues = {
 };
 
 const schema = {
-    code: 'required|mim:3|max:20',
-    name: 'required|mim:3|max:100',
+    code: 'required|min:3|max:20',
+    name: 'required|max:100',
     // zip_code: 'regex:/^[0-9]{3}-[0-9]{4}$/',
     address: 'max:255',
     representative_name: 'max:20',
