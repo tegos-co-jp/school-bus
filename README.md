@@ -79,3 +79,7 @@ error ni naru ga mou ichido yaru
 ```
 npm install  --legacy-peer-deps
 ```
+
+```
+gh auth login
+```
