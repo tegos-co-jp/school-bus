@@ -19,29 +19,26 @@ import InputText from 'primevue/inputtext';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
-    school: Object,
+    school_group: Object,
 });
 
 const form = useForm({
-    id: props.school.id,
-    code: props.school.code,
-    name: props.school.name,
-    zip_code: props.school.zip_code,
-    address: props.school.address,
-    phone_number: props.school.phone_number,
+    id: props.school_group.id,
+    code: props.school_group.code,
+    name: props.school_group.name,
 });
 
 </script>
 
 <template>
-<Head title="学校更新" />
+<Head title="教育委員会の表示" />
 <div class="flex justify-content-center">
     <form @submit.prevent="" >
         <Card style="width: 25em">
             <template #header>
             </template>
             <template #title>
-                学校の表示
+                教育委員会の表示
             </template>
             <template #subtitle>
                 
@@ -57,35 +54,14 @@ const form = useForm({
                 <div class="field">
                     <div class="p-float-label">
                         <InputText id="code" v-model="form.code" class="w-full readonly"/>
-                        <InputLabel for="code" columnTitle="学校コード"/>
+                        <InputLabel for="code" columnTitle="コード"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <div class="p-float-label">
                         <InputText id="name" v-model="form.name.$model"  class="w-full readonly"/>
-                        <InputLabel for="name" columnTitle="学校名" />
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="p-float-label">
-                        <InputText id="zip_code" v-model="form.zip_code"  class="w-full readonly"/>
-                        <InputLabel for="zip_code" columnTitle="郵便番号" />
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="p-float-label">
-                        <InputText id="address" v-model="form.address"  class="w-full readonly"/>
-                        <InputLabel for="address" columnTitle="住所" />
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="p-float-label">
-                        <InputText id="phone_number" v-model="form.phone_number"  class="w-full readonly"/>
-                        <InputLabel for="phone_number" columnTitle="電話番号" />
+                        <InputLabel for="name" columnTitle="名称" />
                     </div>
                 </div>
 

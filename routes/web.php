@@ -32,6 +32,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+use App\Http\Controllers\SchoolGroupController;
+Route::resource('schoolGroup',SchoolGroupController::class)
+->middleware(['auth', 'verified']);
+
 use App\Http\Controllers\SchoolController;
 Route::resource('school',SchoolController::class)
 ->middleware(['auth', 'verified']);

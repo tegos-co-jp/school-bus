@@ -10,12 +10,18 @@ class School extends Model
     use HasFactory;
 
     protected $fillable =[
+        'school_group_id',
         'code',
         'name',
+        'short_name',
         'zip_code',
         'address',
-        'representative_name',
+        'reception_finish_time',
         'phone_number',
-        'email',
     ];
+    
+    public function school_group()
+    {
+        return $this->belongsTo(SchoolGroup::class);
+    }
 }

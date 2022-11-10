@@ -38,17 +38,17 @@ const items = ref([
         icon:'pi pi-fw pi-building',
         items:[
             {
-                label:'list',
+                label:'教育委員会',
                 icon:'pi pi-fw pi-list',
                 command: () => {
-                    Inertia.get(route("school.index"));
+                    Inertia.get(route("schoolGroup.index"));
                 },
             },
             {
-                label:'New',
+                label:'学校',
                 icon:'pi pi-fw pi-plus',
                 command: () => {
-                    Inertia.get(route("school.create"));
+                    Inertia.get(route("school.index"));
                 },
             },
         ]

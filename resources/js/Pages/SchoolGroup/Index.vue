@@ -18,10 +18,7 @@ import Column from 'primevue/column';
 import { Link } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
-    schools: {
-        type: Array,
-    },
-    SchoolResource: {
+    school_groups: {
         type: Array,
     }
 });
@@ -30,14 +27,13 @@ const filters = ref({
         });
 
 const createClick = () => {
-    Inertia.get(route("school.create"));
+    Inertia.get(route("schoolGroup.create"));
 };
 const editClick = (data:Array) => {
-    Inertia.get(route("school.edit",data));
+    Inertia.get(route("schoolGroup.edit",data));
 };
 const deleteClick = (data:Array) => {
-    Inertia.delete(route("school.destroy",data.id));
-    // Inertia.get(route("school.show",data.id));
+    Inertia.delete(route("schoolGroup.destroy",data.id));
 };
 </script>
 
@@ -45,10 +41,10 @@ const deleteClick = (data:Array) => {
     <div>
         <div class="card">
 
-            <DataTable :value="schools.data" 
+            <DataTable :value="school_groups.data" 
                 :paginator="true" :rows="10" :filters="filters"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5,10,25]"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} schools" responsiveLayout="scroll">
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} school_groups" responsiveLayout="scroll">
                 <template #header>
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <div class="flex flex-nowrap align-items-center">
@@ -62,7 +58,6 @@ const deleteClick = (data:Array) => {
                     </div>
                 </template>
 
-                <Column field="school_group.name" header="教育委員会" :sortable="true" style="min-width:10rem"></Column>
                 <Column field="code" header="コード" :sortable="true" style="min-width:4rem"></Column>
                 <Column field="name" header="名称" :sortable="true" style="min-width:16rem"></Column>
                 <Column :exportable="false" style="min-width:8rem">
@@ -74,6 +69,7 @@ const deleteClick = (data:Array) => {
             </DataTable>
             
         </div>
+
 
     </div>
 </template>

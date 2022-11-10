@@ -22,17 +22,6 @@ import * as ja from '@vee-validate/i18n/dist/locale/ja.json';
 Object.keys(AllRules).forEach(rule => {
   defineRule(rule, AllRules[rule]);
 });
-defineRule('tel', (value, [], ctx) => {
-  if (!value || !value.length) {
-    return false;
-  }
-  //-を外して数値のみでチェック
-  var custumTel = value.replace(/[━.‐.―.－.-.ー.-]/gi,'');
-  if (!custumTel.match(/^(0[5-9]0[0-9]{8}|0[1-9][1-9][0-9]{7})$/)) {
-    return false;
-  }
-  return true;
-});
 localize({ ja });
 
 configure({
@@ -43,41 +32,28 @@ configure({
 });
 
 const props = defineProps({
-    school: Object,
+    school_group: Object,
 });
 
 const labelValues = {
-    school_group_id: '教育委員会',
-    code: '学校コード',
-    name: '学校名',
-    short_name: '略称',
+    code: 'コード',
+    name: '名称',
     zip_code: '郵便番号',
     address: '住所',
-    reception_finish_time : '当日バス予約締切時間',
-    phone_number: '予約締切後電話番号',
+    representative_name: '代表者氏名',
+    phone_number: '電話番号',
+    email: 'メールアドレス',
 };
 
 const initialValues = {
-    id: props.school.id,
-    school_group_id: props.school.school_group_id,
-    code: props.school.code,
-    name: props.school.name,
-    short_name: props.school.short_name,
-    zip_code: props.school.zip_code,
-    address: props.school.address,
-    reception_finish_time: props.school.reception_finish_time,
-    phone_number: props.school.phone_number,
+    id: props.school_group.id,
+    code: props.school_group.code,
+    name: props.school_group.name,
 };
 
 const schema = {
-    school_group_id: 'required',
     code: 'required|alpha_num|min:3|max:20',
     name: 'required|max:100',
-    short_name: 'required|max:10',
-    zip_code: 'required|regex:[0-9]{3}-[0-9]{4}',
-    address: 'max:255',
-    reception_finish_time: '',
-    phone_number: 'tel',
 
 };
 
@@ -90,7 +66,7 @@ configure({ generateMessage: localize('ja', { names: labelValues },), });
 
 // サブミットメソッド
 const onSubmit = handleSubmit(async (values, actions) => {
-    Inertia.patch(route('school.update', initialValues.id), values, {
+    Inertia.patch(route('schoolGroup.update', initialValues.id), values, {
         onError: (errors) => {
             actions.setErrors(errors);
         },
@@ -100,32 +76,21 @@ const onSubmit = handleSubmit(async (values, actions) => {
 
 <template>
 
-    <Head title="学校更新" />
+    <Head title="教育委員会更新" />
     <div class="flex justify-content-center">
         <form @submit="onSubmit">
             <Card style="width: 25em">
                 <template #header>
                 </template>
                 <template #title>
-                    学校の修正
+                    教育委員会の修正
                 </template>
                 <template #subtitle>
 
                 </template>
                 <template #content>
                     <InputTextWithValidation name="code" :label="labelValues.code" :isRequired="true" piClass="tag" />
-                    <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true"
-                        piClass="building" />
-                    <InputTextWithValidation name="zip_code" :label="labelValues.zip_code" :isRequired="true"
-                        piClass="flag" />
-                    <InputTextWithValidation name="address" :label="labelValues.address" :isRequired="true"
-                        piClass="globe" />
-                    <InputTextWithValidation name="representative_name" :label="labelValues.representative_name"
-                        :isRequired="true" piClass="user" />
-                    <InputTextWithValidation name="phone_number" :label="labelValues.phone_number" :isRequired="true"
-                        piClass="phone" />
-                    <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"
-                        piClass="envelope" />
+                    <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true" piClass="building" />
 
                 </template>
                 <template #footer>

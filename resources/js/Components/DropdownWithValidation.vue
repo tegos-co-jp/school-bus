@@ -1,17 +1,18 @@
 <template>
-  <div class="field">
-    <label for="type">{{ label }}</label>
-
+  <div class="">
+    <label :for="`${name}`" :class="{'p-error':errorMessage}">{{ label }}{{ isRequired ? "*" : "" }}</label>
+    
     <Dropdown
       :label="label"
       v-model="value"
       :options="options"
       optionLabel="name"
-      optionValue="value"
+      optionValue="id"
       placeholder="Please select an option"
     />
+    
 
-    <small id="email-help" class="p-error">{{ errorMessage }}</small>
+    <small :id="`${name}-help`" class="p-error">{{ errorMessage }}</small>
   </div>
 </template>
 
@@ -33,7 +34,21 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  isRequired: {
+    type: Boolean,
+    default: false,
+  },
+  piClass: {
+    type: String,
+    default: ''
+  }
 });
 
 const { errorMessage, value } = useField(toRef(props, 'name'));
 </script>
+
+<style lang="postcss" scoped>
+.field * {
+  display: block;
+}
+</style>

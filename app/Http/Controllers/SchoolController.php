@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSchoolRequest;
 use App\Http\Requests\UpdateSchoolRequest;
 use App\Http\Resources\SchoolResource;
+use App\Models\SchoolGroup;
 use App\Models\School;
 use Inertia\Inertia;
 
@@ -17,12 +18,9 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        \Log::debug(School::all());
-        // \Log::debug(print_r(SchoolResource::collection(School::all()),true));
-
+$a = School::all();
         return Inertia::render('School/Index', [
-            'schools' => School::all()
-            // 'schools' => SchoolResource::collection(School::all()),
+            'schools' => SchoolResource::collection(School::all()),
         ]);
 
     }
@@ -35,7 +33,9 @@ class SchoolController extends Controller
     public function create()
     {
         //
-        return Inertia::render('School/Create');
+        return Inertia::render('School/Create', [
+            'school_groups' => SchoolGroup::all()
+        ]);
     }
 
     /**
