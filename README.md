@@ -68,7 +68,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ### mac
 ```
-docker run --rm -v $(pwd):/opt -w /opt laravelsail/php80-composer:latest composer install
+docker run --rm -v $(pwd):/opt -w /opt laravelsail/php81-composer:latest composer install
 ```
 
 ```
