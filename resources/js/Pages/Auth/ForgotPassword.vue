@@ -1,48 +1,70 @@
-<script setup>
+<script setup lang="ts">
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components copy/InputError.vue';
-import InputLabel from '@/Components copy/InputLabel.vue';
-import PrimaryButton from '@/Components copy/PrimaryButton.vue';
-import TextInput from '@/Components copy/TextInput.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import InputText from 'primevue/inputtext';
+import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Inertia } from "@inertiajs/inertia";
+import InputTextWithValidation from '@/components/InputTextWithValidation.vue';
+import Card from 'primevue/card';
+import Button from 'primevue/button';
+import { useForm, configure } from 'vee-validate';
+import { localize } from '@vee-validate/i18n';
+import validateFunction from '@/Common/validateRule';
 
+validateFunction();
 defineProps({
     status: String,
 });
-
-const form = useForm({
-    email: '',
+configure({
+  generateMessage: localize('ja', {
+    messages: {
+      tel:'{field}のフォーマットが正しくありません',
+    },
+  }),
 });
 
-const submit = () => {
-    form.post(route('password.email'));
+
+const labelValues = {
+    email: 'メールアドレス',
 };
+
+const initialValues = {
+    email: '',
+};
+
+const schema = {
+    email: 'required|max:100|email',
+};
+
+const { errors, meta, handleSubmit, isSubmitting, submitCount } = useForm({
+    validationSchema: schema,
+    initialValues: initialValues,
+});
+configure({ generateMessage: localize('ja', { names: labelValues },), });
+
+
+const onSubmit = handleSubmit(async (values, actions) => {
+    Inertia.post(route('password.email'), values, {
+        onError: (errors) => {
+            actions.setErrors(errors);
+        },
+    });
+    // 送信したことがわかるような処理が必要かも。
+});
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
+        <Head title="パスワードを忘れた" />
 
         <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+            パスワードをお忘れになりましたか？問題ありません。メールアドレスをお知らせいただければ、パスワード再設定用のリンクをメールでお送りしますので、新しいパスワードをお選びください。
         </div>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
+        <form @submit.prevent="onSubmit">
             <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true" piClass="building" />
             </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
-                </PrimaryButton>
-            </div>
+            <Button label="送信" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
         </form>
     </GuestLayout>
 </template>

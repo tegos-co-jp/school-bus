@@ -1,58 +1,91 @@
-<script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components copy/InputError.vue';
-import InputLabel from '@/Components copy/InputLabel.vue';
-import PrimaryButton from '@/Components copy/PrimaryButton.vue';
-import TextInput from '@/Components copy/TextInput.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+<script setup lang="ts">
+// import GuestLayout from '@/Layouts/GuestLayout.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import InputText from 'primevue/inputtext';
+import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Inertia } from "@inertiajs/inertia";
+import InputTextWithValidation from '@/components/InputTextWithValidation.vue';
+import ReadOnlyInputText from '@/components/ReadOnlyInputText.vue';
+import Button from 'primevue/button';
+import { useForm, configure} from 'vee-validate';
+import { localize } from '@vee-validate/i18n';
+import validateFunction from '@/Common/validateRule';
 
+validateFunction();
 const props = defineProps({
     email: String,
     token: String,
 });
 
-const form = useForm({
-    token: props.token,
-    email: props.email,
-    password: '',
-    password_confirmation: '',
+configure({
+  generateMessage: localize('ja', {
+    messages: {
+      tel:'{field}のフォーマットが正しくありません',
+    },
+  }),
 });
 
-const submit = () => {
-    form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+const labelValues = {
+    email:'メールアドレス',
+    password: 'パスワード',
+    password_confirmation: 'パスワード確認用',
 };
+
+const initialValues = {
+    email:props.email,
+    password: '',
+    password_confirmation: '',
+    token: props.token,
+};
+
+const schema = {
+    email:'required|max:100|email',
+    password: 'required|min:8',
+    password_confirmation: 'required|min:8|is:@password',
+};
+
+const { errors, meta, handleSubmit, isSubmitting, submitCount } = useForm({
+    validationSchema: schema,
+    initialValues: initialValues,
+});
+configure({ generateMessage: localize('ja', { names: labelValues },), });
+
+
+const onSubmit = handleSubmit(async (values, actions) => {
+    Inertia.post(route('password.update'), values, {
+        onError: (errors) => {
+            console.log(values);
+            actions.setErrors(errors);
+        },
+    });
+    // パスワードをリセットした通知が必要かもしれない。
+});
+
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Reset Password" />
+    <!-- <GuestLayout> -->
+        <Head title="パスワードのリセット" />
+            <div class="form">
+        <div class="flex justify-content-center">
+            <div class="card">
+                <div class="text-center mb-5">
+                    <ApplicationLogo />
+                    <div class="text-900 text-2xl font-medium mb-3">パスワードリセット</div>
+                </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+                <div>
+                <form @submit="onSubmit">
+                        <ReadOnlyInputText name="email" :label="labelValues.email"/>
+                        <InputTextWithValidation name="password" :label="labelValues.password" :isRequired="true"/>
+                        <InputTextWithValidation name="password_confirmation" :label="labelValues.password_confirmation" :isRequired="true" piClass="building" />
+                        <Button label="変更" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
+                </form>
+                </div>
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-                <InputError class="mt-2" :message="form.errors.password" />
             </div>
+        </div>
+    </div>
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+    <!-- </GuestLayout> -->
 </template>

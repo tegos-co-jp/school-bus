@@ -1,9 +1,7 @@
 <template>
   <div class="field">
-    <label :for="`${name}`" :class="{'p-error':errorMessage}">{{ label }}{{ isRequired ? "*" : "" }}</label>
-    <InputText :id="`${name}`" v-model="value" :aria-describedby="`${name}-help`" :class="{ 'p-invalid': errorMessage} "
-      class="w-full" :type="type" />
-    <small :id="`${name}-help`" class="p-error">{{ errorMessage }}</small>
+    <label :for="`${name}`">{{ label }}</label>
+    <InputText :id="`${name}`" v-model="value" readonly class="w-full" :type="type" />
   </div>
 </template>
 
@@ -24,10 +22,6 @@ const props = defineProps({
   type: {
     type: String,
     default: 'text',
-  },
-  isRequired: {
-    type: Boolean,
-    default: false,
   },
 });
 

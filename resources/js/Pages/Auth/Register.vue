@@ -2,18 +2,13 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
 import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Button from 'primevue/button';
 import { useForm, configure } from 'vee-validate';
 import { localize } from '@vee-validate/i18n';
+import validateFunction from '@/Common/validateRule';
 
-import { defineRule } from 'vee-validate';
-import AllRules from '@vee-validate/rules';
-import * as ja from '@vee-validate/i18n/dist/locale/ja.json';
-
-Object.keys(AllRules).forEach(rule => {
-  defineRule(rule, AllRules[rule]);
-});
-localize({ ja });
+validateFunction();
 
 configure({
   generateMessage: localize('ja', {
@@ -62,11 +57,15 @@ const onSubmit = handleSubmit(async (values, actions) => {
 </script>
 
 <template>
+<Head title="登録" />
     <div class="form-demo">
 
         <div class="flex justify-content-center">
             <div class="card">
-                <h5 class="text-center">ユーザー登録</h5>
+                <div class="text-center mb-5">
+                    <ApplicationLogo/>
+                    <div class="text-900 text-2xl font-medium mb-3">ユーザー登録</div>
+                </div>
                 <form @submit="onSubmit">
 
                     <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true" />
@@ -76,10 +75,10 @@ const onSubmit = handleSubmit(async (values, actions) => {
                     <InputTextWithValidation name="password_confirmation" :label="labelValues.password_confirmation"
                         type="password" :isRequired="true" />
 
-                    <div class="footer">
-                        <Button label="Submit" type="submit" :disabled="isSubmitting" />
-                        <Button label="Reset" type="reset" class="p-button-secondary" />
-                    </div>
+                        <div class="footer">
+                            <Button label="送信" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
+                            <Button label="リセット" type="reset" class="p-button-secondary flex-1" />
+                        </div>
 
                 </form>
 
