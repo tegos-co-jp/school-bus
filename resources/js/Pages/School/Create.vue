@@ -9,7 +9,7 @@ export default {
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
-import InputTextWithValidation from '@/components/InputTextWithValidation.vue';
+import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
 import DropdownWithValidation from '@/components/DropdownWithValidation.vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';

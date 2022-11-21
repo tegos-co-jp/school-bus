@@ -1,5 +1,6 @@
 <script lang="ts">
 import BaseLayout from '@/Layouts/BaseLayout.vue';
+import { Teleport } from 'vue';
 export default {
     layout: BaseLayout,
 }
@@ -9,7 +10,9 @@ export default {
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
 import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
-import ZipCodeInputTextWithValidation from '@/components/InputTextWithValidationZipCode.vue';
+import DropdownWithValidation from '@/components/DropdownWithValidation.vue';
+import CalendarWithValidation from '@/Components/CalendarWithValidation.vue';
+import InputSwitchWithValidation from '@/components/InputSwitchWithValidation.vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import { useForm, configure } from 'vee-validate';
@@ -20,33 +23,37 @@ validateFunction();
 configure({
   generateMessage: localize('ja', {
     messages: {
+      tel:'{field}のフォーマットが正しくありません',
     },
   }),
 });
 
 const props = defineProps({
-    school_group: Object,
+    schools: Array,
 });
 
 const labelValues = {
-    code: 'コード',
-    name: '名称',
-    zip_code: '郵便番号',
-    address: '住所',
-    representative_name: '代表者氏名',
-    phone_number: '電話番号',
-    email: 'メールアドレス',
+    school_id: '学校',
+    year: '年度',
+    start_on: '開始日',
+    end_on: '終了日',
+    this_year: '当年度',
 };
 
 const initialValues = {
-    id: props.school_group.id,
-    code: props.school_group.code,
-    name: props.school_group.name,
+    school_id: '',
+    year: '',
+    start_on: '',
+    end_on: '',
+    this_year: '',
 };
 
 const schema = {
-    code: 'required|alpha_num|min:3|max:20',
-    name: 'required|max:100',
+    school_id: 'required',
+    year: 'required|between:2020,2030',
+    start_on: 'required',
+    end_on: 'required',
+    this_year: 'required',
 
 };
 
@@ -59,35 +66,40 @@ configure({ generateMessage: localize('ja', { names: labelValues },), });
 
 // サブミットメソッド
 const onSubmit = handleSubmit(async (values, actions) => {
-    Inertia.patch(route('schoolGroup.update', initialValues.id), values, {
+    console.log("YearCreate",values);
+    Inertia.post(route('schoolYear.store'), values, {
         onError: (errors) => {
             actions.setErrors(errors);
         },
     });
 });
+
 </script>
 
 <template>
 
-    <Head title="教育委員会更新" />
+    <Head title="年度作成" />
     <div class="flex justify-content-center">
         <form @submit="onSubmit">
             <Card style="width: 25em">
                 <template #header>
                 </template>
                 <template #title>
-                    教育委員会の修正
+                    年度の新規登録
                 </template>
                 <template #subtitle>
 
                 </template>
                 <template #content>
-                    <InputTextWithValidation name="code" :label="labelValues.code" :isRequired="true" piClass="tag" />
-                    <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true" piClass="building" />
+                    <DropdownWithValidation name="school_id" :label="labelValues.school_id" :isRequired="true" :options="schools"/>
+                    <InputTextWithValidation name="year" :label="labelValues.year" :isRequired="true"/>
+                    <CalendarWithValidation name="start_on" :label="labelValues.start_on" :isRequired="true"/>
+                    <CalendarWithValidation name="end_on" :label="labelValues.end_on" :isRequired="true" />
+                    <InputSwitchWithValidation name="this_year" :label="labelValues.this_year" :isRequired="true" />
 
                 </template>
                 <template #footer>
-                    <Button type="submit" icon="pi pi-check" label="更新" />
+                    <Button type="submit" :disabled="isSubmitting" icon="pi pi-check" label="登録" />
                 </template>
             </Card>
         </form>

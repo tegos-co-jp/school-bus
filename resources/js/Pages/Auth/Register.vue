@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
-import InputTextWithValidation from '@/components/InputTextWithValidation.vue';
+import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
 import Button from 'primevue/button';
 import { useForm, configure } from 'vee-validate';
 import { localize } from '@vee-validate/i18n';

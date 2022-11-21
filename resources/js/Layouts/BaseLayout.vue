@@ -51,6 +51,13 @@ const items = ref([
                     Inertia.get(route("school.index"));
                 },
             },
+            {
+                label:'機能',
+                icon:'pi pi-fw pi-plus',
+                command: () => {
+                    Inertia.get(route("feature.index"));
+                },
+            },
         ]
     },
 ]);

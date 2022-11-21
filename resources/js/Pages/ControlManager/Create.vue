@@ -1,5 +1,6 @@
 <script lang="ts">
 import BaseLayout from '@/Layouts/BaseLayout.vue';
+import { Teleport } from 'vue';
 export default {
     layout: BaseLayout,
 }
@@ -9,7 +10,7 @@ export default {
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
 import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
-import ZipCodeInputTextWithValidation from '@/components/InputTextWithValidationZipCode.vue';
+import DropdownWithValidation from '@/components/DropdownWithValidation.vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import { useForm, configure } from 'vee-validate';
@@ -24,7 +25,7 @@ Object.keys(AllRules).forEach(rule => {
 });
 defineRule('tel', (value, [], ctx) => {
   if (!value || !value.length) {
-    return false;
+    return true;
   }
   //-を外して数値のみでチェック
   var custumTel = value.replace(/[━.‐.―.－.-.ー.-]/gi,'');
@@ -33,51 +34,43 @@ defineRule('tel', (value, [], ctx) => {
   }
   return true;
 });
+
 localize({ ja });
 
 configure({
   generateMessage: localize('ja', {
     messages: {
+      tel:'{field}のフォーマットが正しくありません',
     },
   }),
 });
 
 const props = defineProps({
-    school: Object,
+    school_groups: Array,
 });
 
 const labelValues = {
     school_group_id: '教育委員会',
-    code: '学校コード',
-    name: '学校名',
-    short_name: '略称',
-    zip_code: '郵便番号',
-    address: '住所',
-    reception_finish_time : '当日バス予約締切時間',
-    phone_number: '予約締切後電話番号',
+    name: '氏名',
+    email: 'メールアドレス',
+    authority_flag: '管理者権限',
+    password: 'パスワード',
 };
 
 const initialValues = {
-    id: props.school.id,
-    school_group_id: props.school.school_group_id,
-    code: props.school.code,
-    name: props.school.name,
-    short_name: props.school.short_name,
-    zip_code: props.school.zip_code,
-    address: props.school.address,
-    reception_finish_time: props.school.reception_finish_time,
-    phone_number: props.school.phone_number,
+    school_group_id: '',
+    name: '',
+    email: '',
+    authority_flag: '',
+    password: '',
 };
 
 const schema = {
     school_group_id: 'required',
-    code: 'required|alpha_num|min:3|max:20',
-    name: 'required|max:100',
-    short_name: 'required|max:10',
-    zip_code: 'required|regex:[0-9]{3}-[0-9]{4}',
-    address: 'max:255',
-    reception_finish_time: '',
-    phone_number: 'tel',
+    name: 'required|max:50',
+    email: 'required|max:50',
+    authority_flag: 'required',
+    password: 'required|max:50',
 
 };
 
@@ -90,46 +83,38 @@ configure({ generateMessage: localize('ja', { names: labelValues },), });
 
 // サブミットメソッド
 const onSubmit = handleSubmit(async (values, actions) => {
-    Inertia.patch(route('school.update', initialValues.id), values, {
+    Inertia.post(route('controlManager.store'), values, {
         onError: (errors) => {
             actions.setErrors(errors);
         },
     });
 });
+
 </script>
 
 <template>
 
-    <Head title="学校更新" />
+    <Head title="統括責任者作成" />
     <div class="flex justify-content-center">
         <form @submit="onSubmit">
             <Card style="width: 25em">
                 <template #header>
                 </template>
                 <template #title>
-                    学校の修正
+                    統括責任者の新規登録
                 </template>
                 <template #subtitle>
 
                 </template>
                 <template #content>
-                    <InputTextWithValidation name="code" :label="labelValues.code" :isRequired="true" piClass="tag" />
-                    <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true"
-                        piClass="building" />
-                    <InputTextWithValidation name="zip_code" :label="labelValues.zip_code" :isRequired="true"
-                        piClass="flag" />
-                    <InputTextWithValidation name="address" :label="labelValues.address" :isRequired="true"
-                        piClass="globe" />
-                    <InputTextWithValidation name="representative_name" :label="labelValues.representative_name"
-                        :isRequired="true" piClass="user" />
-                    <InputTextWithValidation name="phone_number" :label="labelValues.phone_number" :isRequired="true"
-                        piClass="phone" />
-                    <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"
-                        piClass="envelope" />
-
+                    <DropdownWithValidation name="school_group_id" :label="labelValues.school_group_id" :isRequired="true" :options="school_groups"/>
+                    <InputTextWithValidation name="name" :label="labelValues.name" :isRequired="true"/>
+                    <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"/>
+                    <InputTextWithValidation name="authority_flag" :label="labelValues.authority_flag" :isRequired="true"/>
+                    <InputTextWithValidation name="password" :label="labelValues.password" :isRequired="true"/>                    
                 </template>
                 <template #footer>
-                    <Button type="submit" icon="pi pi-check" label="更新" />
+                    <Button type="submit" :disabled="isSubmitting" icon="pi pi-check" label="登録" />
                 </template>
             </Card>
         </form>

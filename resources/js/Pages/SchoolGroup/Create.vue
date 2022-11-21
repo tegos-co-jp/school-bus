@@ -9,20 +9,14 @@ export default {
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
-import InputTextWithValidation from '@/components/InputTextWithValidation.vue';
+import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
 import { useForm, configure } from 'vee-validate';
 import { localize } from '@vee-validate/i18n';
+import validateFunction from '@/Common/validateRule';
 
-import { defineRule } from 'vee-validate';
-import AllRules from '@vee-validate/rules';
-import * as ja from '@vee-validate/i18n/dist/locale/ja.json';
-
-Object.keys(AllRules).forEach(rule => {
-  defineRule(rule, AllRules[rule]);
-});
-localize({ ja });
+validateFunction();
 
 configure({
   generateMessage: localize('ja', {

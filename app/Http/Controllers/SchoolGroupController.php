@@ -66,6 +66,7 @@ class SchoolGroupController extends Controller
      */
     public function edit(SchoolGroup $schoolGroup)
     {
+        // dd($schoolGroup);
         return Inertia::render('SchoolGroup/Edit',[
             'school_group' => $schoolGroup
         ]);

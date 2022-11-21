@@ -40,5 +40,24 @@ use App\Http\Controllers\SchoolController;
 Route::resource('school',SchoolController::class)
 ->middleware(['auth', 'verified']);
 
+use App\Http\Controllers\FeatureController;
+Route::resource('feature',FeatureController::class)
+->middleware(['auth', 'verified']);
+
+use App\Http\Controllers\BookController;
+Route::resource('book',BookController::class)
+->middleware(['auth', 'verified']);
+
+use App\Http\Controllers\AnimalController;
+Route::resource('animal',AnimalController::class)
+->middleware(['auth', 'verified']);
+
+use App\Http\Controllers\ControlManagerController;
+Route::resource('controlManager',ControlManagerController::class)
+->middleware(['auth', 'verified']);
+
+use App\Http\Controllers\SchoolYearController;
+Route::resource('schoolYear',SchoolYearController::class)
+->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
