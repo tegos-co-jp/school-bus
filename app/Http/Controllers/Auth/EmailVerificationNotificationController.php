@@ -22,6 +22,7 @@ class EmailVerificationNotificationController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
+        // メールを送信した判定
         return back()->with('status', 'verification-link-sent');
     }
 }
