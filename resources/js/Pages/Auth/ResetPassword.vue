@@ -64,28 +64,44 @@ const onSubmit = handleSubmit(async (values, actions) => {
 </script>
 
 <template>
-    <!-- <GuestLayout> -->
-        <Head title="パスワードのリセット" />
-            <div class="form">
+    <Head title="パスワードのリセット" />
+            <div class="form-demo">
         <div class="flex justify-content-center">
             <div class="card">
                 <div class="text-center mb-5">
                     <ApplicationLogo />
                     <div class="text-900 text-2xl font-medium mb-3">パスワードリセット</div>
                 </div>
-
-                <div>
                 <form @submit="onSubmit">
                         <ReadOnlyInputText name="email" :label="labelValues.email"/>
                         <InputTextWithValidation name="password" type="password" :label="labelValues.password" :isRequired="true"/>
                         <InputTextWithValidation name="password_confirmation" type="password" :label="labelValues.password_confirmation" :isRequired="true"/>
-                        <Button label="変更" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
+                        <div class="footer">
+                            <Button label="変更" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
+                        </div>
                 </form>
-                </div>
 
             </div>
         </div>
     </div>
-
-    <!-- </GuestLayout> -->
 </template>
+<style scoped>
+.form-demo .card {
+    min-width: 450px;
+}
+
+.form-demo form {
+    margin-top: 2rem;
+}
+
+.form-demo .field {
+    margin-bottom: 1.5rem;
+}
+
+
+@media screen and (max-width: 960px) {
+    .form-demo .card {
+        width: 80%;
+    }
+}
+</style>

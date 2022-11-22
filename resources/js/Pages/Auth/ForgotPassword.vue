@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import InputText from 'primevue/inputtext';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
@@ -53,18 +53,42 @@ const onSubmit = handleSubmit(async (values, actions) => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="パスワードを忘れた" />
-
-        <div class="mb-4 text-sm text-gray-600">
-            パスワードをお忘れになりましたか？問題ありません。メールアドレスをお知らせいただければ、パスワード再設定用のリンクをメールでお送りしますので、新しいパスワードをお選びください。
-        </div>
-
-        <form @submit.prevent="onSubmit">
-            <div>
-                <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"/>
+    <Head title="パスワードを忘れた" />
+        <div class="form-demo">
+            <div class="flex justify-content-center">
+                <div class="card">
+                    <div class="text-center mb-5">
+                        <ApplicationLogo/>
+                        <div class="text-900 text-2xl font-medium mb-3">パスワードを忘れた場合</div>
+                        <div class="mb-4 text-sm text-gray-600">メールを再送信します</div>
+                    </div>
+                    <form @submit.prevent="onSubmit">
+                        <div>
+                            <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"/>
+                        </div>
+                        <Button label="送信" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
+                    </form>
+                </div>
             </div>
-            <Button label="送信" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
-        </form>
-    </GuestLayout>
+        </div>
 </template>
+<style scoped>
+.form-demo .card {
+    min-width: 450px;
+}
+
+.form-demo form {
+    margin-top: 2rem;
+}
+
+.form-demo .field {
+    margin-bottom: 1.5rem;
+}
+
+
+@media screen and (max-width: 960px) {
+    .form-demo .card {
+        width: 80%;
+    }
+}
+</style>

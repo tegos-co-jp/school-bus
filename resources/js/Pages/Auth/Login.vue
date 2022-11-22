@@ -87,6 +87,3 @@ const onSubmit = handleSubmit(async (values, actions) => {
 
 </template>
 
-<!-- <style>
-    margin-bottom: 1.5rem;
-</style> -->
