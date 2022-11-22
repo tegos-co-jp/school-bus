@@ -82,7 +82,6 @@ npm install  --legacy-peer-deps
 
 ```
 ## 最初から作る場合
-```
 curl -s 'https://laravel.build/school-bus?with=mysql,mailhog' | bash
 ```
 
