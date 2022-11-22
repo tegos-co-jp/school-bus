@@ -61,8 +61,7 @@ const schema = {
     zip_code: 'regex:[0-9]{3}-[0-9]{4}',
     address: 'max:255',
     reception_finish_time: '',
-    // phone_number: 'tel',
-    phone_number: '',
+    phone_number: 'tel',
 
 };
 
