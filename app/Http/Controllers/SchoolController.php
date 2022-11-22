@@ -18,7 +18,7 @@ class SchoolController extends Controller
      */
     public function index()
     {
-$a = School::all();
+        School::all();
         return Inertia::render('School/Index', [
             'schools' => SchoolResource::collection(School::all()),
         ]);
@@ -32,7 +32,6 @@ $a = School::all();
      */
     public function create()
     {
-        //
         return Inertia::render('School/Create', [
             'school_groups' => SchoolGroup::all()
         ]);
@@ -46,7 +45,6 @@ $a = School::all();
      */
     public function store(StoreSchoolRequest $request)
     {
-        //
         School::create($request->all());
 
         return redirect()->route('school.index');
@@ -60,7 +58,6 @@ $a = School::all();
      */
     public function show(School $school)
     {
-        //
         return Inertia::render('School/Show',[
             'school' => $school
         ]);
@@ -74,7 +71,6 @@ $a = School::all();
      */
     public function edit(School $school)
     {
-        //
         return Inertia::render('School/Edit',[
             'school' => $school
         ]);
@@ -89,7 +85,6 @@ $a = School::all();
      */
     public function update(UpdateSchoolRequest $request, School $school)
     {
-        //
         $school->update($request->all());
         return redirect()->route('school.index');
     }
@@ -102,7 +97,6 @@ $a = School::all();
      */
     public function destroy(School $school)
     {
-        //
         $school->delete();
         return redirect()->route('school.index');
     }
