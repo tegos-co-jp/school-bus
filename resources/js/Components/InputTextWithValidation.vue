@@ -33,9 +33,3 @@ const props = defineProps({
 
 const { errorMessage, value } = useField(toRef(props, 'name'));
 </script>
-
-<style lang="postcss" scoped>
-.field * {
-  display: block;
-}
-</style>

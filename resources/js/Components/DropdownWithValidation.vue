@@ -1,17 +1,16 @@
 <template>
-  <div class="">
+  <div class="field">
     <label :for="`${name}`" :class="{'p-error':errorMessage}">{{ label }}{{ isRequired ? "*" : "" }}</label>
-    
-    <Dropdown
-      :label="label"
-      v-model="value"
-      :options="options"
-      optionLabel="name"
-      optionValue="id"
-      placeholder="Please select an option"
+    <Dropdown 
+      :label="label" 
+      v-model="value" 
+      :options="options" 
+      optionLabel="name" 
+      optionValue="id" 
+      placeholder="選択してください" 
+      :class="{ 'p-invalid': errorMessage} "
+      class="w-full"
     />
-    
-
     <small :id="`${name}-help`" class="p-error">{{ errorMessage }}</small>
   </div>
 </template>
@@ -38,17 +37,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  piClass: {
-    type: String,
-    default: ''
-  }
 });
 
 const { errorMessage, value } = useField(toRef(props, 'name'));
 </script>
-
-<style lang="postcss" scoped>
-.field * {
-  display: block;
-}
-</style>
