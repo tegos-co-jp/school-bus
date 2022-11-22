@@ -62,7 +62,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
 
         <form @submit.prevent="onSubmit">
             <div>
-                <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true" piClass="building" />
+                <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"/>
             </div>
             <Button label="送信" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
         </form>

@@ -77,8 +77,8 @@ const onSubmit = handleSubmit(async (values, actions) => {
                 <div>
                 <form @submit="onSubmit">
                         <ReadOnlyInputText name="email" :label="labelValues.email"/>
-                        <InputTextWithValidation name="password" :label="labelValues.password" :isRequired="true"/>
-                        <InputTextWithValidation name="password_confirmation" :label="labelValues.password_confirmation" :isRequired="true" piClass="building" />
+                        <InputTextWithValidation name="password" type="password" :label="labelValues.password" :isRequired="true"/>
+                        <InputTextWithValidation name="password_confirmation" type="password" :label="labelValues.password_confirmation" :isRequired="true"/>
                         <Button label="変更" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
                 </form>
                 </div>

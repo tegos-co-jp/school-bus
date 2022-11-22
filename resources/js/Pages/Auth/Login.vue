@@ -67,7 +67,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
                 <div>
                     <form @submit="onSubmit">
 
-                        <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true" piClass="envelope" />
+                        <InputTextWithValidation name="email" :label="labelValues.email" :isRequired="true"/>
                         <InputTextWithValidation name="password" :label="labelValues.password" type="password" :isRequired="true" />
 
                         <div class="flex align-items-center justify-content-between mb-6">

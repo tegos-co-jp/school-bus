@@ -1,5 +1,4 @@
 <script setup>
-// import GuestLayout from '@/Layouts/GuestLayout.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import InputTextWithValidation from '@/Components/InputTextWithValidation.vue';
 import { Head, Link} from '@inertiajs/inertia-vue3';
@@ -62,10 +61,6 @@ const onSubmit = handleSubmit(async (values, actions) => {
                 <div>
                     <form @submit="onSubmit">
                         <InputTextWithValidation name="password" :label="labelValues.password" type="password"/>
-
-                        <!-- <div class="flex align-items-center justify-content-between mb-6">
-                            <Link :href="route('password.request')" class="text-sm no-underline ml-2 text-blue-500 cursor-pointer">パスワードを忘れた場合</Link>
-                        </div> -->
                         <div class="footer">
                             <Button label="確認" type="submit" :disabled="isSubmitting" icon="pi pi-send" class="flex-1"/>
                         </div>
