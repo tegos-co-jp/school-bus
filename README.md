@@ -81,5 +81,21 @@ npm install  --legacy-peer-deps
 ```
 
 ```
+## 最初から作る場合
+```
+curl -s 'https://laravel.build/school-bus?with=mysql,mailhog' | bash
+```
+
+
+## 以下のエラーが出た場合、envをよく見た後再作成する
+ERROR 1045 (28000): Access denied for user 'sail'@'172.XX.X.X' (using password: YES)
+
+## コンテナ、ボリュームを削除
+sail down -v
+
+sail up -d
+```
+
+```
 gh auth login
 ```
